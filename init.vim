@@ -15,6 +15,10 @@ Plug 'tpope/vim-repeat'
 call plug#end()
 
 set clipboard=unnamedplus
+augroup SyncVSCodeClipboard
+    autocmd!
+    autocmd TextYankPost * if v:event.operator ==# 'y' | call VSCodeNotify('clipboard.copy', @0) | endif
+augroup END
 
 " move line up/down
 nnoremap <S-DOWN> :m .+1<CR>==
