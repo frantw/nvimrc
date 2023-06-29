@@ -12,13 +12,16 @@ Plug 'easymotion/vim-easymotion', Cond(!exists('g:vscode'))
 Plug 'asvetliakov/vim-easymotion', Cond(exists('g:vscode'), { 'as': 'vsc-easymotion' })
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
+Plug 'machakann/vim-highlightedyank'
 call plug#end()
 
 set clipboard=unnamedplus
-augroup SyncVSCodeClipboard
-    autocmd!
-    autocmd TextYankPost * if v:event.operator ==# 'y' | call VSCodeNotify('clipboard.copy', @) | endif
-augroup END
+autocmd TextYankPost * if v:event.operator is 'y' | call VSCodeNotify('clipboard.copy') | endif
+
+let g:highlightedyank_highlight_duration = 300
+if !exists('##TextYankPost')
+  map y <Plug>(highlightedyank)
+endif
 
 " move line up/down
 nnoremap <S-DOWN> :m .+1<CR>==
